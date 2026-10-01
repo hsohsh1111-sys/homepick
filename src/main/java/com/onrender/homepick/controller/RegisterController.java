@@ -1,3 +1,4 @@
+// RegisterController.java
 package com.onrender.homepick.controller;
 
 import com.onrender.homepick.dto.RegisterRequest;
