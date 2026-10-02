@@ -45,6 +45,10 @@ jobs:
         if: github.event_name == 'push'
         run: docker save homepick:${GITHUB_SHA} --output homepick-image.tar
 
+      - name: Make Docker image readable for upload
+        if: github.event_name == 'push'
+        run: chmod 644 homepick-image.tar
+
       - name: Upload Docker image to EC2
         if: github.event_name == 'push'
         uses: appleboy/scp-action@v0.1.7
