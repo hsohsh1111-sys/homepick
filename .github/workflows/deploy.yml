@@ -102,4 +102,15 @@ jobs:
               --env FIREBASE_WEB_MESSAGING_SENDER_ID="$FIREBASE_WEB_MESSAGING_SENDER_ID" \
               --env FIREBASE_WEB_APP_ID="$FIREBASE_WEB_APP_ID" \
               "homepick:$IMAGE_TAG"
+            for attempt in $(seq 1 12); do
+              if [ "$(docker inspect --format='{{.State.Running}}' homepick)" = "true" ]; then
+                break
+              fi
+              sleep 5
+            done
+            if [ "$(docker inspect --format='{{.State.Running}}' homepick)" != "true" ]; then
+              docker logs homepick
+              exit 1
+            fi
+            docker ps --filter name=homepick
             rm -f /tmp/homepick-image.tar
